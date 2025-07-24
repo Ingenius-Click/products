@@ -1,0 +1,42 @@
+{
+    "name": "ingenius/products",
+    "description": "Ingenius Products Package",
+    "type": "library",
+    "license": "MIT",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "Ingenius Team",
+            "email": "info@ingeniusclick.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ingenius/core": "*",
+        "ingenius/auth": "*",
+        "spatie/laravel-sluggable": "^3.7"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ingenius\\Products\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ingenius\\Products\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ingenius\\Products\\Providers\\ProductsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
