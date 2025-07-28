@@ -2,34 +2,51 @@
 
 namespace Ingenius\Products\Policies;
 
-use Ingenius\Auth\Models\User;
 use Ingenius\Products\Constants\ProductsPermissions;
 use Ingenius\Products\Models\Product;
 
 class ProductPolicy
 {
-    public function viewAny(?User $user)
+    public function viewAny($user)
     {
         return true;
     }
 
-    public function view(?User $user, Product $product)
+    public function view($user, Product $product)
     {
         return true;
     }
 
-    public function create(User $user)
+    public function create($user)
     {
-        return $user->can(ProductsPermissions::PRODUCTS_CREATE);
+        $userClass = tenant_user_class();
+
+        if ($user && is_object($user) && is_a($user, $userClass)) {
+            return $user->can(ProductsPermissions::PRODUCTS_CREATE);
+        }
+
+        return false;
     }
 
-    public function update(User $user, Product $product)
+    public function update($user, Product $product)
     {
-        return $user->can(ProductsPermissions::PRODUCTS_EDIT);
+        $userClass = tenant_user_class();
+
+        if ($user && is_object($user) && is_a($user, $userClass)) {
+            return $user->can(ProductsPermissions::PRODUCTS_EDIT);
+        }
+
+        return false;
     }
 
-    public function delete(User $user, Product $product)
+    public function delete($user, Product $product)
     {
-        return $user->can(ProductsPermissions::PRODUCTS_DELETE);
+        $userClass = tenant_user_class();
+
+        if ($user && is_object($user) && is_a($user, $userClass)) {
+            return $user->can(ProductsPermissions::PRODUCTS_DELETE);
+        }
+
+        return false;
     }
 }
