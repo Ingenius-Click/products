@@ -13,7 +13,12 @@ class CreateCategoryFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'Create category';
+        return __('Create category');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Categories');
     }
 
     public function getPackage(): string

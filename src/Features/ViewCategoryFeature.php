@@ -13,7 +13,12 @@ class ViewCategoryFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'View category';
+        return __('View category');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Categories');
     }
 
     public function getPackage(): string

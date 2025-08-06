@@ -13,7 +13,12 @@ class CreateProductFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'Create product';
+        return __('Create product');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Products');
     }
 
     public function getPackage(): string

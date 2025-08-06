@@ -13,7 +13,12 @@ class UpdateCategoryFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'Update category';
+        return __('Update category');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Categories');
     }
 
     public function getPackage(): string

@@ -13,7 +13,12 @@ class UpdateProductFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'Update product';
+        return __('Update product');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Products');
     }
 
     public function getPackage(): string

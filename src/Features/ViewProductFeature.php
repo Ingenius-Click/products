@@ -13,7 +13,12 @@ class ViewProductFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'View product';
+        return __('View product');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Products');
     }
 
     public function getPackage(): string

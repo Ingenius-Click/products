@@ -13,7 +13,12 @@ class ListCategoriesFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'List categories';
+        return __('List categories');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Categories');
     }
 
     public function getPackage(): string

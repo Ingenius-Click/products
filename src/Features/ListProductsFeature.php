@@ -13,7 +13,12 @@ class ListProductsFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'List products';
+        return __('List products');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Products');
     }
 
     public function getPackage(): string

@@ -13,7 +13,12 @@ class DeleteProductFeature implements FeatureInterface
 
     public function getName(): string
     {
-        return 'Delete product';
+        return __('Delete product');
+    }
+
+    public function getGroup(): string
+    {
+        return __('Products');
     }
 
     public function getPackage(): string
