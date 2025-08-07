@@ -29,8 +29,7 @@ class ProductsController extends Controller
 
         $this->authorizeForUser($user, 'viewAny', Product::class);
 
-        $filters = $request->only(['visible', 'in_stock', 'per_page']);
-        $products = $listProductsAction($filters);
+        $products = $listProductsAction($request->all());
 
         return response()->api(
             'Products retrieved successfully',

@@ -16,19 +16,6 @@ class ListCategoriesAction
     {
         $query = Category::query();
 
-        // Apply parent filter if specified
-        if (isset($filters['parent_id'])) {
-            $query->where('parent_id', $filters['parent_id']);
-        }
-
-        // Apply search filter if specified
-        if (isset($filters['search']) && !empty($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
-        }
-
-        // Get per page value or default to 15
-        $perPage = $filters['per_page'] ?? 15;
-
-        return $query->paginate($perPage);
+        return table_handler_paginate($filters, $query);
     }
 }

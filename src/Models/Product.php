@@ -141,6 +141,12 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
     public function scopeReadyForSale(Builder $query): Builder
     {
         return $query->where('visible', true)
-            ->where('stock_for_sale', '>', 0);
+            ->where(function ($query) {
+                $query->where('handle_stock', false)
+                    ->orWhere(function ($query) {
+                        $query->where('handle_stock', true)
+                            ->where('stock_for_sale', '>', 0);
+                    });
+            });
     }
 }
