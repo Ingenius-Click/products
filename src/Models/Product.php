@@ -41,11 +41,14 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
         'stock',
         'stock_for_sale',
         'unit_of_measurement',
-        'short_description',
+        'short_description'
     ];
 
     protected $appends = [
-        'images'
+        'images',
+        'categories_ids',
+        'normal_regular_price',
+        'normal_sale_price'
     ];
 
     /**
@@ -138,6 +141,11 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
         return $this->belongsToMany(Category::class, 'products_categories', 'product_id', 'category_id');
     }
 
+    public function getCategoriesIdsAttribute(): array
+    {
+        return $this->categories()->get()->pluck('id')->toArray();
+    }
+
     public function scopeReadyForSale(Builder $query): Builder
     {
         return $query->where('visible', true)
@@ -148,5 +156,15 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
                             ->where('stock_for_sale', '>', 0);
                     });
             });
+    }
+
+    public function getNormalRegularPriceAttribute(): float
+    {
+        return $this->regular_price / 100;
+    }
+
+    public function getNormalSalePriceAttribute(): float
+    {
+        return $this->sale_price / 100;
     }
 }

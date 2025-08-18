@@ -12,8 +12,8 @@ abstract class ProductFormRequest extends FormRequest
     protected function imagesRules(): array
     {
         return [
-            'images' => ['nullable', 'array'],
-            'images.*' => ['mimes:jpg,jpeg,png,webp', 'max:300'],
+            'new_images' => ['nullable', 'array'],
+            'new_images.*' => ['mimes:jpg,jpeg,png,webp', 'max:300'],
             'removed_images' => ['nullable', 'array'],
             'removed_images.*' => ['integer'],
         ];
@@ -22,8 +22,8 @@ abstract class ProductFormRequest extends FormRequest
     protected function categoriesRules(): array
     {
         return [
-            'categories' => ['required', 'array'],
-            'categories.*' => ['integer', 'exists:categories,id'],
+            'categories_ids' => ['required', 'array'],
+            'categories_ids.*' => ['integer', 'exists:categories,id'],
         ];
     }
 }

@@ -22,18 +22,21 @@ class UpdateProductAction
     public function __invoke(Product $product, array $data): Product
     {
         return DB::transaction(function () use ($product, $data) {
+            $data['regular_price'] = $data['normal_regular_price'] * 100;
+            $data['sale_price'] = $data['normal_sale_price'] * 100;
+
             $product->update($data);
 
-            if (isset($data['images'])) {
-                $this->saveImages($data['images'], $product);
+            if (isset($data['new_images'])) {
+                $this->saveImages($data['new_images'], $product);
             }
 
             if (isset($data['removed_images'])) {
                 $this->removeImages($data['removed_images'], $product);
             }
 
-            if (isset($data['categories'])) {
-                $product->categories()->sync($data['categories']);
+            if (isset($data['categories_ids'])) {
+                $product->categories()->sync($data['categories_ids']);
             }
 
             return $product->fresh();
