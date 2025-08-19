@@ -25,6 +25,11 @@ class UpdateProductAction
             $data['regular_price'] = $data['normal_regular_price'] * 100;
             $data['sale_price'] = $data['normal_sale_price'] * 100;
 
+            if (!isset($data['handle_stock']) || !$data['handle_stock']) {
+                unset($data['stock']);
+                unset($data['stock_for_sale']);
+            }
+
             $product->update($data);
 
             if (isset($data['new_images'])) {
