@@ -59,9 +59,6 @@ class ProductsController extends Controller
      */
     public function show(Product $product, ShowProductAction $showProductAction): JsonResponse
     {
-        $user = AuthHelper::getUser();
-        $this->authorizeForUser($user, 'view', $product);
-
         $product = $showProductAction($product);
 
         return response()->api(
