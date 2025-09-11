@@ -68,18 +68,21 @@ class ProductsServiceProvider extends ServiceProvider
         // Load migrations
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
-        // Load views
-        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'products');
+        // Load views only if they exist
+        $viewsPath = __DIR__ . '/../../resources/views';
+        if (is_dir($viewsPath) && count(glob($viewsPath . '/*.blade.php')) > 0) {
+            $this->loadViewsFrom($viewsPath, 'products');
+            
+            // Publish views only if they exist
+            $this->publishes([
+                $viewsPath => resource_path('views/vendor/products'),
+            ], 'products-views');
+        }
 
         // Publish configuration
         $this->publishes([
             __DIR__ . '/../../config/products.php' => config_path('products.php'),
         ], 'products-config');
-
-        // Publish views
-        $this->publishes([
-            __DIR__ . '/../../resources/views' => resource_path('views/vendor/products'),
-        ], 'products-views');
 
         // Publish migrations
         $this->publishes([
