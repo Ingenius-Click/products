@@ -6,6 +6,7 @@ use Ingenius\Core\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Ingenius\Auth\Helpers\AuthHelper;
 use Ingenius\Products\Actions\CreateProductAction;
 use Ingenius\Products\Actions\DeleteProductAction;
@@ -31,7 +32,7 @@ class ProductsController extends Controller
 
         $products = $listProductsAction($request->all());
 
-        return response()->api(
+        return Response::api(
             'Products retrieved successfully',
             $products
         );
@@ -47,7 +48,7 @@ class ProductsController extends Controller
 
         $product = $createProductAction($request->validated());
 
-        return response()->api(
+        return Response::api(
             'Product created successfully',
             $product,
             201
@@ -61,7 +62,7 @@ class ProductsController extends Controller
     {
         $product = $showProductAction($product);
 
-        return response()->api(
+        return Response::api(
             'Product retrieved successfully',
             $product
         );
@@ -77,7 +78,7 @@ class ProductsController extends Controller
 
         $product = $updateProductAction($product, $request->validated());
 
-        return response()->api(
+        return Response::api(
             'Product updated successfully',
             $product
         );
@@ -93,7 +94,7 @@ class ProductsController extends Controller
 
         $deleteProductAction($product);
 
-        return response()->api(
+        return Response::api(
             'Product deleted successfully'
         );
     }

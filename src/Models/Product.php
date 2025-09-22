@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Ingenius\Core\Interfaces\IBaseProductibleData;
 use Ingenius\Core\Interfaces\IInventoriable;
 use Ingenius\Core\Interfaces\IPurchasable;
