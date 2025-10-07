@@ -11,4 +11,6 @@ return [
     */
 
     'name' => 'Products',
+
+    'sku_generator_implementation' => \Ingenius\Products\Services\SimpleSkuGenerator::class,
 ];

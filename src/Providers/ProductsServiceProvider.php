@@ -4,8 +4,10 @@ namespace Ingenius\Products\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Ingenius\Core\Services\FeatureManager;
+use Ingenius\Core\Services\StoreConfigurationManager;
 use Ingenius\Core\Traits\RegistersConfigurations;
 use Ingenius\Core\Traits\RegistersMigrations;
+use Ingenius\Products\Configuration\ProductStoreConfiguration;
 use Ingenius\Products\Features\CreateCategoryFeature;
 use Ingenius\Products\Features\CreateProductFeature;
 use Ingenius\Products\Features\DeleteCategoryFeature;
@@ -48,6 +50,11 @@ class ProductsServiceProvider extends ServiceProvider
             $manager->register(new ViewCategoryFeature());
             $manager->register(new UpdateCategoryFeature());
             $manager->register(new DeleteCategoryFeature());
+        });
+
+        // Register store configuration extension
+        $this->app->afterResolving(StoreConfigurationManager::class, function (StoreConfigurationManager $manager) {
+            $manager->register(new ProductStoreConfiguration());
         });
     }
 

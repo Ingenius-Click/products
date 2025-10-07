@@ -33,6 +33,8 @@ Route::middleware([
 
             // Delete a specific product
             Route::delete('/{product}', [ProductsController::class, 'destroy'])->middleware('tenant.has.feature:delete-product');
+
+            Route::get('/generate-sku', [\Ingenius\Products\Http\Controllers\ProductSkuController::class, 'generate'])->middleware('tenant.has.feature:create-product');
         });
 
         // Show a specific product
