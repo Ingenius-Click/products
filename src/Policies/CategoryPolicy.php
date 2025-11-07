@@ -10,12 +10,24 @@ class CategoryPolicy
 
     public function viewAny($user): bool
     {
-        return true;
+        $userClass = tenant_user_class();
+
+        if ($user && is_object($user) && is_a($user, $userClass)) {
+            return $user->can(CategoriesPermissions::CATEGORIES_VIEW);
+        }
+
+        return false;
     }
 
     public function view($user, Category $category): bool
     {
-        return true;
+        $userClass = tenant_user_class();
+
+        if ($user && is_object($user) && is_a($user, $userClass)) {
+            return $user->can(CategoriesPermissions::CATEGORIES_VIEW);
+        }
+
+        return false;
     }
 
     public function create($user): bool

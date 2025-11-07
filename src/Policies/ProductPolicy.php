@@ -9,12 +9,24 @@ class ProductPolicy
 {
     public function viewAny($user)
     {
-        return true;
+        $userClass = tenant_user_class();
+
+        if ($user && is_object($user) && is_a($user, $userClass)) {
+            return $user->can(ProductsPermissions::PRODUCTS_VIEW);
+        }
+
+        return false;
     }
 
     public function view($user, Product $product)
     {
-        return true;
+        $userClass = tenant_user_class();
+
+        if ($user && is_object($user) && is_a($user, $userClass)) {
+            return $user->can(ProductsPermissions::PRODUCTS_VIEW);
+        }
+
+        return false;
     }
 
     public function create($user)
