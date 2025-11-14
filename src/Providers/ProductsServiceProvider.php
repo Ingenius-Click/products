@@ -18,6 +18,7 @@ use Ingenius\Products\Features\UpdateCategoryFeature;
 use Ingenius\Products\Features\UpdateProductFeature;
 use Ingenius\Products\Features\ViewCategoryFeature;
 use Ingenius\Products\Features\ViewProductFeature;
+use Ingenius\Products\Services\ProductExtensionManager;
 
 class ProductsServiceProvider extends ServiceProvider
 {
@@ -51,6 +52,9 @@ class ProductsServiceProvider extends ServiceProvider
             $manager->register(new UpdateCategoryFeature());
             $manager->register(new DeleteCategoryFeature());
         });
+
+        // Register the product extension manager as a singleton
+        $this->app->singleton(ProductExtensionManager::class, fn() => new ProductExtensionManager());
 
         // Register store configuration extension
         $this->app->afterResolving(StoreConfigurationManager::class, function (StoreConfigurationManager $manager) {
