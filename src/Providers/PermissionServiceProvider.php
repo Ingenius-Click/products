@@ -46,19 +46,78 @@ class PermissionServiceProvider extends ServiceProvider
      */
     protected function registerPermissions(PermissionsManager $permissionsManager): void
     {
-        // Register Products package permissions
-        $permissionsManager->registerMany([
-            ProductsPermissions::PRODUCTS_VIEW => 'View products',
-            ProductsPermissions::PRODUCTS_CREATE => 'Create products',
-            ProductsPermissions::PRODUCTS_EDIT => 'Edit products',
-            ProductsPermissions::PRODUCTS_DELETE => 'Delete products',
-        ], $this->packageName, 'tenant');
+        // Register Products permissions
+        $permissionsManager->register(
+            ProductsPermissions::PRODUCTS_VIEW,
+            'View products',
+            $this->packageName,
+            'tenant',
+            'View products',
+            'Products'
+        );
 
-        $permissionsManager->registerMany([
-            CategoriesPermissions::CATEGORIES_VIEW => 'View categories',
-            CategoriesPermissions::CATEGORIES_CREATE => 'Create categories',
-            CategoriesPermissions::CATEGORIES_EDIT => 'Edit categories',
-            CategoriesPermissions::CATEGORIES_DELETE => 'Delete categories',
-        ], $this->packageName, 'tenant');
+        $permissionsManager->register(
+            ProductsPermissions::PRODUCTS_CREATE,
+            'Create products',
+            $this->packageName,
+            'tenant',
+            'Create products',
+            'Products'
+        );
+
+        $permissionsManager->register(
+            ProductsPermissions::PRODUCTS_EDIT,
+            'Edit products',
+            $this->packageName,
+            'tenant',
+            'Edit products',
+            'Products'
+        );
+
+        $permissionsManager->register(
+            ProductsPermissions::PRODUCTS_DELETE,
+            'Delete products',
+            $this->packageName,
+            'tenant',
+            'Delete products',
+            'Products'
+        );
+
+        // Register Categories permissions
+        $permissionsManager->register(
+            CategoriesPermissions::CATEGORIES_VIEW,
+            'View categories',
+            $this->packageName,
+            'tenant',
+            'View categories',
+            'Categories'
+        );
+
+        $permissionsManager->register(
+            CategoriesPermissions::CATEGORIES_CREATE,
+            'Create categories',
+            $this->packageName,
+            'tenant',
+            'Create categories',
+            'Categories'
+        );
+
+        $permissionsManager->register(
+            CategoriesPermissions::CATEGORIES_EDIT,
+            'Edit categories',
+            $this->packageName,
+            'tenant',
+            'Edit categories',
+            'Categories'
+        );
+
+        $permissionsManager->register(
+            CategoriesPermissions::CATEGORIES_DELETE,
+            'Delete categories',
+            $this->packageName,
+            'tenant',
+            'Delete categories',
+            'Categories'
+        );
     }
 }
