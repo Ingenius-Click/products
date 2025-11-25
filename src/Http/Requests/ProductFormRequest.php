@@ -26,4 +26,17 @@ abstract class ProductFormRequest extends FormRequest
             'categories_ids.*' => ['integer', 'exists:categories,id'],
         ];
     }
+
+    protected function comingSoonRules(): array
+    {
+        // Only add validation if the tenant has the coming soon feature
+        if (!tenant() || !tenant()->hasFeature('coming-soon-product')) {
+            return [];
+        }
+
+        return [
+            'coming_soon' => ['nullable', 'boolean'],
+            'available_from' => ['nullable', 'date', 'after:now'],
+        ];
+    }
 }

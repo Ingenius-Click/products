@@ -26,6 +26,7 @@ class ProductRequest extends ProductFormRequest
             'short_description' => 'required|string|max:255',
             ...$this->imagesRules(),
             ...$this->categoriesRules(),
+            ...$this->comingSoonRules(),
         ];
 
         $event = new ProductExtraRules($rules);

@@ -4,10 +4,12 @@ namespace Ingenius\Products\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Ingenius\Core\Services\FeatureManager;
+use Ingenius\Core\Services\PackageHookManager;
 use Ingenius\Core\Services\StoreConfigurationManager;
 use Ingenius\Core\Traits\RegistersConfigurations;
 use Ingenius\Core\Traits\RegistersMigrations;
 use Ingenius\Products\Configuration\ProductStoreConfiguration;
+use Ingenius\Products\Features\ComingSoonProductFeature;
 use Ingenius\Products\Features\CreateCategoryFeature;
 use Ingenius\Products\Features\CreateProductFeature;
 use Ingenius\Products\Features\DeleteCategoryFeature;
@@ -51,6 +53,7 @@ class ProductsServiceProvider extends ServiceProvider
             $manager->register(new ViewCategoryFeature());
             $manager->register(new UpdateCategoryFeature());
             $manager->register(new DeleteCategoryFeature());
+            $manager->register(new ComingSoonProductFeature());
         });
 
         // Register the product extension manager as a singleton
@@ -59,6 +62,18 @@ class ProductsServiceProvider extends ServiceProvider
         // Register store configuration extension
         $this->app->afterResolving(StoreConfigurationManager::class, function (StoreConfigurationManager $manager) {
             $manager->register(new ProductStoreConfiguration());
+        });
+
+        $this->app->afterResolving(PackageHookManager::class, function (PackageHookManager $hookManager) {
+            $hookManager->register('products.query.coming_soon', function ($query, $params) {
+                if (method_exists($query->getModel(), 'scopeComingSoon')) {
+                    $query->comingSoon();
+                } else {
+                    $query->where('coming_soon', true);
+                }
+
+                return $query;
+            });
         });
     }
 

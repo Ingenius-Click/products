@@ -36,6 +36,8 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
         'sku',
         'description',
         'visible',
+        'coming_soon',
+        'available_from',
         'regular_price',
         'sale_price',
         'handle_stock',
@@ -48,6 +50,11 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
     protected $appends = [
         'images',
         'categories_ids'
+    ];
+
+    protected $casts = [
+        'coming_soon' => 'boolean',
+        'available_from' => 'datetime',
     ];
 
     /**
@@ -155,5 +162,43 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
                             ->where('stock_for_sale', '>', 0);
                     });
             });
+    }
+
+    /**
+     * Check if the product is marked as coming soon
+     */
+    public function isComingSoon(): bool
+    {
+        // Check if tenant has the coming soon feature enabled
+        if (!tenant() || !tenant()->hasFeature('coming-soon-product')) {
+            return false;
+        }
+
+        if (!$this->coming_soon) {
+            return false;
+        }
+
+        // If available_from is set, check if it's still in the future
+        if ($this->available_from) {
+            return $this->available_from->isFuture();
+        }
+
+        return true;
+    }
+
+    /**
+     * Scope to filter coming soon products
+     */
+    public function scopeComingSoon(Builder $query): Builder
+    {
+        return $query->where('coming_soon', true);
+    }
+
+    /**
+     * Check if the product can be purchased (required by IPurchasable interface)
+     */
+    public function canBePurchased(): bool
+    {
+        return !$this->isComingSoon();
     }
 }
