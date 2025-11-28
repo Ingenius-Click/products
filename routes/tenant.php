@@ -13,11 +13,31 @@
 
 use Illuminate\Support\Facades\Route;
 use Ingenius\Products\Http\Controllers\CategoryController;
+use Ingenius\Products\Http\Controllers\PriceCacheDebugController;
 use Ingenius\Products\Http\Controllers\ProductsController;
 
 Route::middleware([
     'api',
 ])->prefix('api')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Debug Routes - Price Cache Statistics
+    |--------------------------------------------------------------------------
+    |
+    | These routes are for debugging and monitoring price cache performance.
+    | Only available when APP_DEBUG=true
+    |
+    */
+    if (config('app.debug', false)) {
+        Route::prefix('debug/price-cache')->group(function () {
+            Route::get('stats', [PriceCacheDebugController::class, 'stats']);
+            Route::get('detailed-stats', [PriceCacheDebugController::class, 'detailedStats']);
+            Route::get('test-performance', [PriceCacheDebugController::class, 'testPerformance']);
+            Route::post('reset-stats', [PriceCacheDebugController::class, 'resetStats']);
+            Route::post('clear', [PriceCacheDebugController::class, 'clear']);
+        });
+    }
 
     Route::prefix('products')->group(function () {
 
