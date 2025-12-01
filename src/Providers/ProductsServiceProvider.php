@@ -77,6 +77,16 @@ class ProductsServiceProvider extends ServiceProvider
 
                 return $query;
             });
+
+            // Hook to warm price cache when cart items are loaded
+            $hookManager->register('cart.items.loaded', function ($products, $context) {
+                if (!empty($products)) {
+                    $priceCache = app(\Ingenius\Products\Services\ProductPriceCacheService::class);
+                    $priceCache->warmBulkPrices($products);
+                }
+
+                return $products;
+            }, priority: 10); // High priority to run early
         });
     }
 
