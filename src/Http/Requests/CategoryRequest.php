@@ -24,8 +24,10 @@ class CategoryRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'parent_id' => ['nullable', 'exists:categories,id', new NoCategoryCircularReference()],
-            'images' => ['nullable', 'array'],
-            'images.*' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif', 'max:300'],
+            'new_images' => ['nullable', 'array'],
+            'new_images.*' => ['mimes:jpg,jpeg,png,webp', 'max:300'],
+            'removed_images' => ['nullable', 'array'],
+            'removed_images.*' => ['integer'],
         ];
     }
 }

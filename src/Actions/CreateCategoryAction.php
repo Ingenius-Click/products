@@ -22,8 +22,8 @@ class CreateCategoryAction
             // Create the new category
             $category = Category::create($data);
 
-            if (isset($data['images'])) {
-                $this->saveImages($data['images'], $category, 'category_images');
+            if (isset($data['new_images'])) {
+                $this->saveImages($data['new_images'], $category, 'category_images');
             }
 
             return $category;

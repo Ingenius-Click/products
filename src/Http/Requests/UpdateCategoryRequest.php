@@ -32,8 +32,10 @@ class UpdateCategoryRequest extends FormRequest
                 'exists:categories,id',
                 new NoCategoryCircularReference($category)
             ],
-            'images' => ['nullable', 'array'],
-            'images.*' => ['nullable', 'file', 'mimes:jpeg,png,jpg,webp', 'max:300'],
+            'new_images' => ['nullable', 'array'],
+            'new_images.*' => ['mimes:jpg,jpeg,png,webp', 'max:300'],
+            'removed_images' => ['nullable', 'array'],
+            'removed_images.*' => ['integer'],
         ];
     }
 }
