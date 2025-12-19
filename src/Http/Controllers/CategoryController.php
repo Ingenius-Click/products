@@ -30,7 +30,7 @@ class CategoryController extends Controller
         $user = AuthHelper::getUser();
         $this->authorizeForUser($user, 'viewAny', Category::class);
 
-        $filters = $request->only(['parent_id', 'search', 'per_page']);
+        $filters = $request->only(['parent_id', 'search', 'per_page', 'filters', 'sorters']);
         $categories = $listCategoriesAction($filters);
 
         return Response::api(
