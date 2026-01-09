@@ -36,7 +36,7 @@ abstract class ProductFormRequest extends FormRequest
 
         return [
             'coming_soon' => ['nullable', 'boolean'],
-            'available_from' => ['nullable', 'date', 'after:now'],
+            'available_from' => ['nullable', 'date'],
         ];
     }
 }

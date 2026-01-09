@@ -191,7 +191,14 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
      */
     public function scopeComingSoon(Builder $query): Builder
     {
-        return $query->where('coming_soon', true);
+        return $query
+                    ->where('coming_soon', true)
+                    ->where(function ($query) {
+                        $query
+                            ->whereNull('available_from')
+                            ->orWhere('available_from', '<', now());
+                    });
+                    ;
     }
 
     /**
