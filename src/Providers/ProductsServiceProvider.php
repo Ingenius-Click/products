@@ -2,6 +2,7 @@
 
 namespace Ingenius\Products\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Ingenius\Core\Services\FeatureManager;
 use Ingenius\Core\Services\PackageHookManager;
@@ -35,6 +36,12 @@ class ProductsServiceProvider extends ServiceProvider
 
         // Register configuration with the registry
         $this->registerConfig(__DIR__ . '/../../config/products.php', 'products', 'products');
+
+        // Register settings classes
+        $this->registerSettingsClasses();
+
+        // Register settings bindings
+        $this->registerSettingsBindings();
 
         // Register the route service provider
         $this->app->register(RouteServiceProvider::class);
@@ -127,5 +134,41 @@ class ProductsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../database/migrations/' => database_path('migrations'),
         ], 'products-migrations');
+    }
+
+    /**
+     * Register settings classes with the core settings system.
+     */
+    protected function registerSettingsClasses(): void
+    {
+        // Get existing settings classes from core config
+        $coreSettingsClasses = Config::get('settings.settings_classes', []);
+
+        // Get products settings classes
+        $productsSettingsClasses = Config::get('products.settings_classes', []);
+
+        // Merge and update the core settings classes
+        $mergedSettingsClasses = array_merge($coreSettingsClasses, $productsSettingsClasses);
+
+        // Update the core settings config
+        Config::set('settings.settings_classes', $mergedSettingsClasses);
+    }
+
+    /**
+     * Register Settings class bindings that work in tenant context
+     */
+    protected function registerSettingsBindings(): void
+    {
+        // Bind ProductSettings to use make() method when in tenant context
+        $this->app->bind(\Ingenius\Products\Settings\ProductSettings::class, function ($app) {
+            // Check if we're in tenant context
+            $tenancy = $app->make(\Stancl\Tenancy\Tenancy::class);
+            if ($tenancy->tenant) {
+                return \Ingenius\Products\Settings\ProductSettings::make();
+            }
+
+            // Return empty instance if not in tenant context
+            return new \Ingenius\Products\Settings\ProductSettings();
+        });
     }
 }
