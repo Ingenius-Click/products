@@ -178,11 +178,6 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
             return false;
         }
 
-        // If available_from is set, check if it's still in the future
-        if ($this->available_from) {
-            return $this->available_from->isFuture();
-        }
-
         return true;
     }
 
