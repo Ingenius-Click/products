@@ -13,7 +13,7 @@ abstract class ProductFormRequest extends FormRequest
     {
         return [
             'new_images' => ['nullable', 'array'],
-            'new_images.*' => ['mimes:jpg,jpeg,png,webp', 'max:500'],
+            'new_images.*' => ['mimes:jpg,jpeg,png,webp','max:500',"dimensions:ratio=7/5"],
             'removed_images' => ['nullable', 'array'],
             'removed_images.*' => ['integer'],
         ];

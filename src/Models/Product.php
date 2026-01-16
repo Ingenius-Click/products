@@ -188,11 +188,6 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
     {
         return $query
                     ->where('coming_soon', true)
-                    ->where(function ($query) {
-                        $query
-                            ->whereNull('available_from')
-                            ->orWhere('available_from', '<', now());
-                    });
                     ;
     }
 
