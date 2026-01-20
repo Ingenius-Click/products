@@ -44,7 +44,8 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
         'stock',
         'stock_for_sale',
         'unit_of_measurement',
-        'short_description'
+        'short_description',
+        'searchby'
     ];
 
     protected $appends = [

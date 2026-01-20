@@ -24,6 +24,7 @@ class ProductRequest extends ProductFormRequest
             'stock_for_sale' => ['required_if:handle_stock,true', 'nullable', new FormNumeric, 'min:0', 'lte:stock'],
             'unit_of_measurement' => 'required|string|max:255',
             'short_description' => 'required|string|max:255',
+            'searchby' => 'nullable|string|max:255',
             ...$this->imagesRules(),
             ...$this->categoriesRules(),
             ...$this->comingSoonRules(),
