@@ -37,6 +37,9 @@ class ProductsServiceProvider extends ServiceProvider
         // Register configuration with the registry
         $this->registerConfig(__DIR__ . '/../../config/products.php', 'products', 'products');
 
+        // Load translations early so they're available for permission registration
+        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'products');
+
         // Register settings classes
         $this->registerSettingsClasses();
 

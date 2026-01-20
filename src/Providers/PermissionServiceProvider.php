@@ -52,8 +52,8 @@ class PermissionServiceProvider extends ServiceProvider
             'View products',
             $this->packageName,
             'tenant',
-            'View products',
-            'Products'
+            __('products::permissions.display_names.view_products'),
+            __('products::permissions.groups.products')
         );
 
         $permissionsManager->register(
@@ -61,8 +61,8 @@ class PermissionServiceProvider extends ServiceProvider
             'Create products',
             $this->packageName,
             'tenant',
-            'Create products',
-            'Products'
+            __('products::permissions.display_names.create_products'),
+            __('products::permissions.groups.products')
         );
 
         $permissionsManager->register(
@@ -70,8 +70,8 @@ class PermissionServiceProvider extends ServiceProvider
             'Edit products',
             $this->packageName,
             'tenant',
-            'Edit products',
-            'Products'
+            __('products::permissions.display_names.edit_products'),
+            __('products::permissions.groups.products')
         );
 
         $permissionsManager->register(
@@ -79,8 +79,8 @@ class PermissionServiceProvider extends ServiceProvider
             'Delete products',
             $this->packageName,
             'tenant',
-            'Delete products',
-            'Products'
+            __('products::permissions.display_names.delete_products'),
+            __('products::permissions.groups.products')
         );
 
         // Register Categories permissions
@@ -89,8 +89,8 @@ class PermissionServiceProvider extends ServiceProvider
             'View categories',
             $this->packageName,
             'tenant',
-            'View categories',
-            'Categories'
+            __('products::permissions.display_names.view_categories'),
+            __('products::permissions.groups.categories')
         );
 
         $permissionsManager->register(
@@ -98,8 +98,8 @@ class PermissionServiceProvider extends ServiceProvider
             'Create categories',
             $this->packageName,
             'tenant',
-            'Create categories',
-            'Categories'
+            __('products::permissions.display_names.create_categories'),
+            __('products::permissions.groups.categories')
         );
 
         $permissionsManager->register(
@@ -107,8 +107,8 @@ class PermissionServiceProvider extends ServiceProvider
             'Edit categories',
             $this->packageName,
             'tenant',
-            'Edit categories',
-            'Categories'
+            __('products::permissions.display_names.edit_categories'),
+            __('products::permissions.groups.categories')
         );
 
         $permissionsManager->register(
@@ -116,8 +116,8 @@ class PermissionServiceProvider extends ServiceProvider
             'Delete categories',
             $this->packageName,
             'tenant',
-            'Delete categories',
-            'Categories'
+            __('products::permissions.display_names.delete_categories'),
+            __('products::permissions.groups.categories')
         );
     }
 }
