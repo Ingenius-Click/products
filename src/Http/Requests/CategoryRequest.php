@@ -25,7 +25,7 @@ class CategoryRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'parent_id' => ['nullable', 'exists:categories,id', new NoCategoryCircularReference()],
             'new_images' => ['nullable', 'array'],
-            'new_images.*' => ['mimes:jpg,jpeg,png,webp','max:300',"dimensions:ratio=1/1"],
+            'new_images.*' => ['mimes:jpg,jpeg,png,webp','max:300'],
             'removed_images' => ['nullable', 'array'],
             'removed_images.*' => ['integer'],
         ];
