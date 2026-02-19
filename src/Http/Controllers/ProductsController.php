@@ -16,6 +16,7 @@ use Ingenius\Products\Actions\UpdateProductAction;
 use Ingenius\Products\Http\Requests\ProductRequest;
 use Ingenius\Products\Http\Requests\UpdateProductRequest;
 use Ingenius\Products\Models\Product;
+use Ingenius\Products\Transformers\ShowProductResource;
 
 class ProductsController extends Controller
 {
@@ -64,7 +65,7 @@ class ProductsController extends Controller
 
         return Response::api(
             'Product retrieved successfully',
-            $product
+            new ShowProductResource($product)
         );
     }
 
