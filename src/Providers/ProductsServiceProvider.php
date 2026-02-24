@@ -72,6 +72,9 @@ class ProductsServiceProvider extends ServiceProvider
         // Register the product price cache service as a singleton (request-scoped)
         $this->app->singleton(\Ingenius\Products\Services\ProductPriceCacheService::class);
 
+        // Register the stock availability service as a singleton, bound to the core interface
+        $this->app->singleton(\Ingenius\Core\Interfaces\StockAvailabilityInterface::class, \Ingenius\Products\Services\StockAvailabilityService::class);
+
         // Register store configuration extension
         $this->app->afterResolving(StoreConfigurationManager::class, function (StoreConfigurationManager $manager) {
             $manager->register(new ProductStoreConfiguration());

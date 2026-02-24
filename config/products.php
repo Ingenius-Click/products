@@ -25,4 +25,16 @@ return [
     'settings_classes' => [
         \Ingenius\Products\Settings\ProductSettings::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Stock Availability Cache TTL
+    |--------------------------------------------------------------------------
+    |
+    | The number of seconds to cache the computed available stock for a product.
+    | Available stock accounts for reservations in carts and pending orders.
+    | Lower values = more accurate but more DB queries.
+    |
+    */
+    'stock_cache_ttl' => env('PRODUCTS_STOCK_CACHE_TTL', 300),
 ];
