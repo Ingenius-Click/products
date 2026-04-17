@@ -11,6 +11,8 @@ use Ingenius\Core\Traits\RegistersConfigurations;
 use Ingenius\Core\Traits\RegistersMigrations;
 use Ingenius\Products\Configuration\ProductStoreConfiguration;
 use Ingenius\Products\Features\ComingSoonProductFeature;
+use Ingenius\Products\Features\ManageAttributesFeature;
+use Ingenius\Products\Features\ManageVariantsFeature;
 use Ingenius\Products\Features\CreateCategoryFeature;
 use Ingenius\Products\Features\CreateProductFeature;
 use Ingenius\Products\Features\DeleteCategoryFeature;
@@ -64,6 +66,8 @@ class ProductsServiceProvider extends ServiceProvider
             $manager->register(new UpdateCategoryFeature());
             $manager->register(new DeleteCategoryFeature());
             $manager->register(new ComingSoonProductFeature());
+            $manager->register(new ManageAttributesFeature());
+            $manager->register(new ManageVariantsFeature());
         });
 
         // Register the product extension manager as a singleton
@@ -74,6 +78,9 @@ class ProductsServiceProvider extends ServiceProvider
 
         // Register the stock availability service as a singleton, bound to the core interface
         $this->app->singleton(\Ingenius\Core\Interfaces\StockAvailabilityInterface::class, \Ingenius\Products\Services\StockAvailabilityService::class);
+
+        // Register the variant SKU generator
+        $this->app->singleton(\Ingenius\Products\Services\VariantSkuGenerator::class);
 
         // Register store configuration extension
         $this->app->afterResolving(StoreConfigurationManager::class, function (StoreConfigurationManager $manager) {

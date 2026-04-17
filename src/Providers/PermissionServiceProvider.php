@@ -5,8 +5,10 @@ namespace Ingenius\Products\Providers;
 use Illuminate\Support\ServiceProvider;
 use Ingenius\Core\Support\PermissionsManager;
 use Ingenius\Core\Traits\RegistersConfigurations;
+use Ingenius\Products\Constants\AttributesPermissions;
 use Ingenius\Products\Constants\CategoriesPermissions;
 use Ingenius\Products\Constants\ProductsPermissions;
+use Ingenius\Products\Constants\VariantsPermissions;
 
 class PermissionServiceProvider extends ServiceProvider
 {
@@ -118,6 +120,80 @@ class PermissionServiceProvider extends ServiceProvider
             'tenant',
             __('products::permissions.display_names.delete_categories'),
             __('products::permissions.groups.categories')
+        );
+
+        // Register Attributes permissions
+        $permissionsManager->register(
+            AttributesPermissions::ATTRIBUTES_VIEW,
+            'View attributes',
+            $this->packageName,
+            'tenant',
+            __('products::permissions.display_names.view_attributes'),
+            __('products::permissions.groups.attributes')
+        );
+
+        $permissionsManager->register(
+            AttributesPermissions::ATTRIBUTES_CREATE,
+            'Create attributes',
+            $this->packageName,
+            'tenant',
+            __('products::permissions.display_names.create_attributes'),
+            __('products::permissions.groups.attributes')
+        );
+
+        $permissionsManager->register(
+            AttributesPermissions::ATTRIBUTES_EDIT,
+            'Edit attributes',
+            $this->packageName,
+            'tenant',
+            __('products::permissions.display_names.edit_attributes'),
+            __('products::permissions.groups.attributes')
+        );
+
+        $permissionsManager->register(
+            AttributesPermissions::ATTRIBUTES_DELETE,
+            'Delete attributes',
+            $this->packageName,
+            'tenant',
+            __('products::permissions.display_names.delete_attributes'),
+            __('products::permissions.groups.attributes')
+        );
+
+        // Register Variants permissions
+        $permissionsManager->register(
+            VariantsPermissions::VARIANTS_VIEW,
+            'View variants',
+            $this->packageName,
+            'tenant',
+            __('products::permissions.display_names.view_variants'),
+            __('products::permissions.groups.variants')
+        );
+
+        $permissionsManager->register(
+            VariantsPermissions::VARIANTS_CREATE,
+            'Create variants',
+            $this->packageName,
+            'tenant',
+            __('products::permissions.display_names.create_variants'),
+            __('products::permissions.groups.variants')
+        );
+
+        $permissionsManager->register(
+            VariantsPermissions::VARIANTS_EDIT,
+            'Edit variants',
+            $this->packageName,
+            'tenant',
+            __('products::permissions.display_names.edit_variants'),
+            __('products::permissions.groups.variants')
+        );
+
+        $permissionsManager->register(
+            VariantsPermissions::VARIANTS_DELETE,
+            'Delete variants',
+            $this->packageName,
+            'tenant',
+            __('products::permissions.display_names.delete_variants'),
+            __('products::permissions.groups.variants')
         );
     }
 }

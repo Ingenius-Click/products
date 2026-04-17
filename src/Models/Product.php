@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Ingenius\Products\Database\Factories\ProductFactory;
 use Spatie\MediaLibrary\HasMedia;
@@ -148,6 +150,29 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
         return $this->belongsToMany(Category::class, 'products_categories', 'product_id', 'category_id');
     }
 
+    public function variants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class)->orderBy('position');
+    }
+
+    public function defaultVariant(): HasOne
+    {
+        return $this->hasOne(ProductVariant::class)->where('is_default', true);
+    }
+
+    public function attributes(): BelongsToMany
+    {
+        return $this->belongsToMany(Attribute::class, 'product_attributes', 'product_id', 'attribute_id');
+    }
+
+    /**
+     * Check if this product has variants enabled.
+     */
+    public function hasVariants(): bool
+    {
+        return $this->variants()->exists();
+    }
+
     public function getCategoriesIdsAttribute(): array
     {
         return $this->categories()->get()->pluck('id')->toArray();
@@ -157,11 +182,30 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
     {
         return $query->where('visible', true)
             ->where(function ($query) {
-                $query->where('handle_stock', false)
-                    ->orWhere(function ($query) {
-                        $query->where('handle_stock', true)
-                            ->where('stock_for_sale', '>', 0);
+                // Products without variants: standard stock check
+                $query->where(function ($q) {
+                    $q->doesntHave('variants')
+                        ->where(function ($q2) {
+                            $q2->where('handle_stock', false)
+                                ->orWhere(function ($q3) {
+                                    $q3->where('handle_stock', true)
+                                        ->where('stock_for_sale', '>', 0);
+                                });
+                        });
+                })
+                // Products with variants: at least one visible variant with stock
+                ->orWhere(function ($q) {
+                    $q->whereHas('variants', function ($vq) {
+                        $vq->where('visible', true)
+                            ->where(function ($vq2) {
+                                $vq2->where('handle_stock', false)
+                                    ->orWhere(function ($vq3) {
+                                        $vq3->where('handle_stock', true)
+                                            ->where('stock_for_sale', '>', 0);
+                                    });
+                            });
                     });
+                });
             });
     }
 
@@ -193,10 +237,32 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
     }
 
     /**
-     * Check if the product can be purchased (required by IPurchasable interface)
+     * Core purchasability checks shared with variants.
+     * Add any future product-level rules here (e.g. isComingSoon, isArchived, etc.)
+     */
+    public function isBasePurchasable(): bool
+    {
+        if ($this->isComingSoon()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if the product can be purchased directly (required by IPurchasable interface)
      */
     public function canBePurchased(): bool
     {
-        return !$this->isComingSoon();
+        if (!$this->isBasePurchasable()) {
+            return false;
+        }
+
+        // Products with variants can only be purchased through their variants
+        if ($this->variants()->exists()) {
+            return false;
+        }
+
+        return true;
     }
 }

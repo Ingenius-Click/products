@@ -13,6 +13,7 @@ trait HasPurchasableData
         $cacheService = app(ProductPriceCacheService::class);
         $cached = $cacheService->getFinalPrice($this->id, get_class($this));
 
+
         if ($cached !== null) {
             return $cached;
         }

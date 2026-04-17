@@ -5,6 +5,8 @@ return [
     'groups' => [
         'products' => 'Products',
         'categories' => 'Categories',
+        'attributes' => 'Attributes',
+        'variants' => 'Variants',
     ],
 
     // Display names
@@ -17,5 +19,13 @@ return [
         'create_categories' => 'Create categories',
         'edit_categories' => 'Edit categories',
         'delete_categories' => 'Delete categories',
+        'view_attributes' => 'View attributes',
+        'create_attributes' => 'Create attributes',
+        'edit_attributes' => 'Edit attributes',
+        'delete_attributes' => 'Delete attributes',
+        'view_variants' => 'View variants',
+        'create_variants' => 'Create variants',
+        'edit_variants' => 'Edit variants',
+        'delete_variants' => 'Delete variants',
     ],
 ];

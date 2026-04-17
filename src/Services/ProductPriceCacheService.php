@@ -160,8 +160,12 @@ class ProductPriceCacheService
             $productData[] = [
                 'product_id' => $product->id,
                 'product_class' => get_class($product),
-                'base_price' => $product->sale_price,
-                'regular_price' => $product->regular_price,
+                'base_price' => method_exists($product, 'getEffectiveSalePrice')
+                    ? $product->getEffectiveSalePrice()
+                    : $product->sale_price,
+                'regular_price' => method_exists($product, 'getEffectiveRegularPrice')
+                    ? $product->getEffectiveRegularPrice()
+                    : $product->regular_price,
             ];
         }
 

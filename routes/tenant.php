@@ -12,9 +12,12 @@
 */
 
 use Illuminate\Support\Facades\Route;
+use Ingenius\Products\Http\Controllers\AttributesController;
 use Ingenius\Products\Http\Controllers\CategoryController;
 use Ingenius\Products\Http\Controllers\PriceCacheDebugController;
+use Ingenius\Products\Http\Controllers\ProductAttributesController;
 use Ingenius\Products\Http\Controllers\ProductsController;
+use Ingenius\Products\Http\Controllers\ProductVariantsController;
 
 Route::middleware([
     'api',
@@ -59,6 +62,48 @@ Route::middleware([
 
         // Show a specific product
         Route::get('/{product}', [ProductsController::class, 'show'])->middleware('tenant.has.feature:view-product');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Attributes Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('attributes')->middleware(['tenant.user', 'tenant.has.feature:manage-attributes'])->group(function () {
+        Route::get('/', [AttributesController::class, 'index']);
+        Route::post('/', [AttributesController::class, 'store']);
+        Route::get('/{attribute}', [AttributesController::class, 'show']);
+        Route::put('/{attribute}', [AttributesController::class, 'update']);
+        Route::delete('/{attribute}', [AttributesController::class, 'destroy']);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Product Variants Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('products/{product}/variants')->middleware(['tenant.user', 'tenant.has.feature:manage-variants'])->group(function () {
+        Route::get('/', [ProductVariantsController::class, 'index']);
+        Route::post('/', [ProductVariantsController::class, 'store']);
+        Route::post('/preview', [ProductVariantsController::class, 'preview']);
+        Route::post('/generate', [ProductVariantsController::class, 'generate']);
+        Route::post('/bulk', [ProductVariantsController::class, 'bulkStore']);
+        Route::put('/bulk', [ProductVariantsController::class, 'bulkUpdate']);
+        Route::post('/bulk-delete', [ProductVariantsController::class, 'bulkDelete']);
+        Route::get('/{variant}', [ProductVariantsController::class, 'show']);
+        Route::put('/{variant}', [ProductVariantsController::class, 'update']);
+        Route::delete('/{variant}', [ProductVariantsController::class, 'destroy']);
+        Route::post('/{variant}/set-default', [ProductVariantsController::class, 'setDefault']);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Product Attributes Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('products/{product}/attributes')->middleware(['tenant.user', 'tenant.has.feature:manage-variants'])->group(function () {
+        Route::get('/', [ProductAttributesController::class, 'index']);
+        Route::post('/sync', [ProductAttributesController::class, 'sync']);
     });
 
     Route::prefix('categories')->group(function () {
