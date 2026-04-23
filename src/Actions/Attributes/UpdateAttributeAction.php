@@ -77,7 +77,13 @@ class UpdateAttributeAction
 
         Storage::put($path, file_get_contents($file->getRealPath()));
 
-        return asset($path);
+        $url = asset($path);
+
+        if (tenant()) {
+            $url .= (str_contains($url, '?') ? '&' : '?') . 'tenant=' . tenant()->domains->first()?->domain;
+        }
+
+        return $url;
     }
 
     private function deleteOptionImage(?string $url): void

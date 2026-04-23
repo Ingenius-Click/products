@@ -36,6 +36,7 @@ class ProductVariant extends Model implements IPurchasable, IInventoriable, HasM
     protected $appends = [
         'images',
         'attribute_options_ids',
+        'name'
     ];
 
     protected $casts = [
@@ -135,6 +136,11 @@ class ProductVariant extends Model implements IPurchasable, IInventoriable, HasM
         $optionNames = $this->attributeOptions->pluck('name')->implode(' / ');
 
         return $this->product->name . ($optionNames ? " - {$optionNames}" : '');
+    }
+
+    public function getNameAttribute(): string 
+    {
+        return $this->getName();
     }
 
     public function canBePurchased(): bool

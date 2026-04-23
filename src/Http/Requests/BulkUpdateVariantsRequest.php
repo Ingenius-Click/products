@@ -64,6 +64,7 @@ class BulkUpdateVariantsRequest extends FormRequest
             $id = $variant['id'] ?? null;
 
             $rules["variants.$index.id"] = 'required|integer|exists:product_variants,id';
+            $rules["variants.$index.is_default"] = 'nullable|boolean';
             
             // --- UNIQUE SKU LOGIC ---
             // distinct: ensures no duplicate SKUs inside the request itself

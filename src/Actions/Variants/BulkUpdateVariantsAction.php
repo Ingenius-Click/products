@@ -42,6 +42,14 @@ class BulkUpdateVariantsAction
                     $updateData['visible'] = $variantData['visible'];
                 }
 
+                    if (isset($variantData['is_default'])) {
+                        if ($variantData['is_default']) {
+                            // Unset is_default for all other variants of the product
+                            $product->variants()->where('id', '!=', $variant->id)->update(['is_default' => false]);
+                            $updateData['is_default'] = $variantData['is_default'];
+                        }
+                    }
+
                 if (!empty($updateData)) {
                     $variant->update($updateData);
                     $updated[] = $variant->fresh();
