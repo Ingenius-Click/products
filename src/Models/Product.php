@@ -198,9 +198,9 @@ class Product extends Model implements IBaseProductibleData, IPurchasable, IInve
                     $q->whereHas('variants', function ($vq) {
                         $vq->where('visible', true)
                             ->where(function ($vq2) {
-                                $vq2->where('handle_stock', false)
+                                $vq2->where('products.handle_stock', false)
                                     ->orWhere(function ($vq3) {
-                                        $vq3->where('handle_stock', true)
+                                        $vq3->where('products.handle_stock', true)
                                             ->where('stock_for_sale', '>', 0);
                                     });
                             });

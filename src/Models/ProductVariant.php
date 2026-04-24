@@ -158,7 +158,7 @@ class ProductVariant extends Model implements IPurchasable, IInventoriable, HasM
 
     public function getStock(): ?float
     {
-        if (!$this->handle_stock) {
+        if (!$this->handleStock()) {
             return $this->product->getStock();
         }
 
@@ -167,7 +167,7 @@ class ProductVariant extends Model implements IPurchasable, IInventoriable, HasM
 
     public function addStock(float $amount): void
     {
-        if (!$this->handle_stock) {
+        if (!$this->handleStock()) {
             $this->product->addStock($amount);
             return;
         }
@@ -179,7 +179,7 @@ class ProductVariant extends Model implements IPurchasable, IInventoriable, HasM
 
     public function removeStock(float $amount): void
     {
-        if (!$this->handle_stock) {
+        if (!$this->handleStock()) {
             $this->product->removeStock($amount);
             return;
         }
@@ -200,7 +200,7 @@ class ProductVariant extends Model implements IPurchasable, IInventoriable, HasM
 
     public function inStock(): bool
     {
-        if (!$this->handle_stock) {
+        if (!$this->handleStock()) {
             return $this->product->inStock();
         }
 
@@ -209,16 +209,12 @@ class ProductVariant extends Model implements IPurchasable, IInventoriable, HasM
 
     public function handleStock(): bool
     {
-        if (!$this->handle_stock) {
-            return $this->product->handleStock();
-        }
-
-        return true;
+        return $this->product->handleStock();
     }
 
     public function hasEnoughStock(float $quantity): bool
     {
-        if (!$this->handle_stock) {
+        if (!$this->handleStock()) {
             return $this->product->hasEnoughStock($quantity);
         }
 
